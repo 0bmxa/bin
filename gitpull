@@ -6,9 +6,8 @@ if [[ $(git submodule) ]]; then
 fi
 
 
+confirm git pull origin $(git rev-parse --abbrev-ref HEAD)
+
 if [ $currentRepoHasSubmodules = true ]; then
-    confirm git pull --recurse-submodules origin $(git rev-parse --abbrev-ref HEAD)
-    #confirm git submodule update --recursive
-else
-    confirm git pull origin $(git rev-parse --abbrev-ref HEAD)
+    confirm git submodule update --init --recursive
 fi

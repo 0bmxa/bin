@@ -27,9 +27,9 @@ fi
 
 # Title
 if [[ $mode = 'outdated' ]]; then
-    printTitle 'Showing outdated packages'
+    printf 'Showing outdated packages...\n'
 elif [[ $mode = 'update' ]]; then
-    printTitle 'Updating all packages'
+    printf 'Updating all packages...\n'
 fi
 
 

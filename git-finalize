@@ -8,37 +8,6 @@ if [[ -z $baseBranch ]]; then
 fi
 
 git refresh $baseBranch
-
 confirm git rebase -i $baseBranch
-
-# Old workflow
-# confirm git push self $initialBranch:$baseBranch
-# confirm git push origin $baseBranch
-
 confirm git push --force origin $initialBranch
-
 confirm hub pull-request
-
-# shouldAskForStash=false
-# if [[ ! $(git status) == *"nothing to commit"* ]]; then
-#     shouldAskForStash=true
-# fi
-#
-# didConfirmStash=false
-# if [ $shouldAskForStash == true ]; then
-#     confirm git stash;
-#     confirmExitStatus=$?
-#     if [ $confirmExitStatus == 0 ]; then
-#         didConfirmStash=true
-#     fi
-# fi
-#
-# # confirm git checkout $baseBranch
-# # confirm git pull origin $baseBranch
-# # confirm git checkout $initialBranch
-# confirm git fetch origin $baseBranch:$baseBranch
-# confirm git rebase $baseBranch
-#
-# if [ $didConfirmStash == true ]; then
-#     confirm git stash apply;
-# fi

@@ -4,11 +4,10 @@ initialBranch=$(git rev-parse --abbrev-ref HEAD);
 
 baseBranch="$1";
 if [[ -z $baseBranch ]]; then
-    # Check if a 'develop' branch exists, else use 'master'
+    baseBranch='master'
+    # Use 'develop' if exists
     if [[ ! -z $(git branch --list | grep 'develop') ]]; then
         baseBranch='develop'
-    else
-        baseBranch='master'
     fi
 fi
 
@@ -30,13 +29,8 @@ fi
 confirm git checkout $baseBranch
 confirm git pull origin $baseBranch
 confirm git checkout $initialBranch
-# confirm git fetch origin $baseBranch:$baseBranch
 confirm git rebase $baseBranch
 
 if [ $didConfirmStash == true ]; then
     confirm git stash apply;
 fi
-
-
-#confirm find . -iname '*.orig'
-#confirm "find . -iname '*.orig' | xargs -I _ rm _"

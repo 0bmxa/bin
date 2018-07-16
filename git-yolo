@@ -3,7 +3,6 @@
 git add -A
 
 message=$(curl -s whatthecommit.com/index.txt)
-#echo "$message"
 git commit -m "$message"
 
 currentBranchName=$(git rev-parse --abbrev-ref HEAD)

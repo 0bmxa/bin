@@ -11,29 +11,24 @@ fi
 
 
 askForRebase() {
-    while read -p "Did you rebase against $baseBranchName ? " -n1 -r
-    do
+    while read -p "Did you rebase against $baseBranchName ? " -n1 -r; do
         printf '\n'
 
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            $commandToExecute
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
             break
-        elif [[ $REPLY =~ ^[Nn]$ ]]
-        then
+        elif [[ $REPLY =~ ^[Nn]$ ]]; then
             confirm git refresh
             confirm git push --force -u origin $currentBranchName
-            exit
+            exit 0
         else
-            printf 'Please type N or Y.\n'
+            printf 'Please press N or Y.\n'
         fi
     done
 }
 
 
 # Ask for rebase, if current branch is not the base branch
-if [[ $currentBranchName != 'master' && $currentBranchName != $baseBranchName ]]
-then
+if [[ $currentBranchName != 'master' && $currentBranchName != $baseBranchName ]]; then
     askForRebase $baseBranchName
 fi
 

@@ -4,8 +4,9 @@ branchToCreate="$1"
 baseBranch="$2"
 
 if [[ -z $branchToCreate ]]; then
-    printf "Creates a new branch from branch 'Develop' (or other specified base branch).\n"
-    printf "Usage: git new NEW_BRANCH [BASE_BRANCH]\n\n"
+    printf 'Creates a new branch from base branch (default: "develop").\n'
+    printf 'Usage:\n'
+    printf '  git new NEW_BRANCH [BASE_BRANCH]\n\n'
     exit
 fi
 
@@ -14,8 +15,5 @@ if [[ -z $baseBranch ]]; then
 fi
 
 confirm git checkout $baseBranch
-
-# confirm git pull origin $baseBranch
 gitpull
-
 confirm git checkout -b $branchToCreate

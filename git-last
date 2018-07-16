@@ -6,4 +6,6 @@ if [ -n "$1" ]; then
     numberOfLines=$1
 fi
 
-git for-each-ref --sort=-committerdate refs/heads/ | head -n $numberOfLines | awk '{print $3}'
+git for-each-ref --sort=-committerdate 'refs/heads/' \
+    | head -n $numberOfLines \
+    | awk '{print $3}'
