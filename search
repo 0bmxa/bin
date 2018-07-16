@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -euo pipefail
+set -eo pipefail
 
 printTitle() {
     Yellow='\033[1;33m'
@@ -21,11 +21,16 @@ searchString="$1"
 searchPath="$2"
 
 # Check if mode is in validModes array
-if [[ -z "$searchString" || -z "$searchPath" ]]; then
+if [[ -z "$searchString" ]]; then
     scriptName="$(basename $0)"
     printf "Usage:\n"
-    printf "  %s <keyword> <path>" "$scriptName"
+    printf "  %s <keyword> [/path/to/search]" "$scriptName"
     printf "\n\n"
+fi
+
+# Use cwd if path is not specified
+if [[ -z "$searchPath" ]]; then
+    searchPath=$(pwd)
 fi
 
 # Check if mode is in validModes array
