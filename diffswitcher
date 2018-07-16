@@ -1,0 +1,40 @@
+#!/bin/sh
+
+#############################################################
+#  Requires the xcodeproj tool:                             #
+#  https://github.com/CocoaPods/Xcodeproj                   #
+#                                                           #
+#  Note:                                                    #
+#  As this only shows a representation of the project and   #
+#  not the project file directly, this is only suitable     #
+#  for diffs, not for merges.                               #
+#                                                           #
+#  Also note:                                               #
+#  In contrast to using "opendiff" as a difftool directly,  #
+#  this does not wait for FileMerge to exit.                #
+#                                                           #
+#############################################################
+
+
+LOCAL="$1"
+REMOTE="$2"
+
+TEMP_WORKDIR="/tmp/git_diff_xcodeproj"
+
+# Check file extension
+REMOTE_FILE_NAME=$(basename "$REMOTE")
+REMOTE_FILE_EXTENSION="${REMOTE_FILE_NAME##*.}"
+
+# If extenseion is "xcodeproj", create the YAML representation using the xcodeproj tool
+if [[ "$REMOTE_FILE_EXTENSION" == "pbxproj" ]]; then
+    mkdir -p "$TEMP_WORKDIR/LOCAL.xcodeproj"
+    cp "$LOCAL" "$TEMP_WORKDIR/LOCAL.xcodeproj/project.pbxproj"
+    xcodeproj show "$TEMP_WORKDIR/LOCAL.xcodeproj" > "$TEMP_WORKDIR/local.yaml"
+    xcodeproj show $(dirname "$REMOTE") > "$TEMP_WORKDIR/remote.yaml"
+
+    opendiff "$TEMP_WORKDIR/local.yaml" "$TEMP_WORKDIR/remote.yaml"
+    rm -rf "$TEMP_WORKDIR"
+else
+    # Otherwise open your normal difftool.
+    opendiff "$LOCAL" "$REMOTE"
+fi

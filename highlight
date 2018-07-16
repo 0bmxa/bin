@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+WORD=$1
+
+#Yellow='\033[1;33m'
+#export GREP_COLOR="$Yellow"
+
+while read line; do
+    echo "${line}" | egrep --color=always "${WORD}|$"
+done

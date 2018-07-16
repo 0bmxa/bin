@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# if arg1 is a folder, switch there
+if [[ -d $1 ]]; then
+    cd "$1"
+fi
+
+CWD=$(pwd)
+echo "Serving ${CWD}"
+
+open 'http://localhost:8080/'
+python3 -m http.server 8080 --bind 127.0.0.1

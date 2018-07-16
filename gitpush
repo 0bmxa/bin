@@ -1,0 +1,42 @@
+#!/bin/sh
+
+repoName=$(basename "$(git rev-parse --show-toplevel)")
+currentBranchName=$(git rev-parse --abbrev-ref HEAD)
+
+# Get the name of the base branch (fixme)
+baseBranchName="$1"
+if [[ -z "$baseBranchName" ]]; then
+    baseBranchName='develop'
+fi
+
+
+askForRebase() {
+    while read -p "Did you rebase against $baseBranchName ? " -n1 -r
+    do
+        printf '\n'
+
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            $commandToExecute
+            break
+        elif [[ $REPLY =~ ^[Nn]$ ]]
+        then
+            confirm git refresh
+            confirm git push --force -u origin $currentBranchName
+            exit
+        else
+            printf 'Please type N or Y.\n'
+        fi
+    done
+}
+
+
+# Ask for rebase, if current branch is not the base branch
+if [[ $currentBranchName != 'master' && $currentBranchName != $baseBranchName ]]
+then
+    askForRebase $baseBranchName
+fi
+
+
+# Confirm the push
+confirm git push -u origin $currentBranchName

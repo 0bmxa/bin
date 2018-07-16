@@ -1,0 +1,52 @@
+#!/bin/sh
+
+set -euo pipefail
+
+printTitle() {
+    Yellow='\033[1;33m'
+    RESET='\033[0m'
+
+    title="${@:1}"
+    titleLength="${#title}"
+    line=$(printf "%${titleLength}s" | tr ' ' =)
+    printf "\n${Yellow}%s\n%s\n${RESET}" "$title" "$line"
+}
+
+
+
+# Actual script starts here
+# ==============================================================================
+
+searchString="$1"
+searchPath="$2"
+
+# Check if mode is in validModes array
+if [[ -z "$searchString" || -z "$searchPath" ]]; then
+    scriptName="$(basename $0)"
+    printf "Usage:\n"
+    printf "  %s <keyword> <path>" "$scriptName"
+    printf "\n\n"
+fi
+
+# Check if mode is in validModes array
+if [[ ! -d "$searchPath" ]]; then
+    printf "ERROR: '%s' is not a valid directory.\n" "$searchPath" >&2
+    exit 1
+fi
+
+printf "Seaching '%s' for '%s' (case-insensitive)...\n" $searchPath $searchString
+
+
+# `find` file names
+printTitle 'File names'
+printf 'Searching...\r'
+nameResults=$(find "$searchPath" -iname "*${searchString}*")
+printf '            \r' # Clears 'Searching...'
+[[ -z "$nameResults" ]] && printf '  No results.\n' || printf "$nameResults\n"
+
+# `grep` file contents
+printTitle 'File contents'
+printf 'Searching...\r'
+contentsResults=$(grep -RIil "$searchString" "$searchPath" || true)
+printf '            \r' # Clears 'Searching...'
+[[ -z "$contentsResults" ]] && printf '  No results.\n' || printf "$contentsResults\n"

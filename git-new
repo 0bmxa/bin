@@ -1,0 +1,21 @@
+#!/bin/bash
+
+branchToCreate="$1"
+baseBranch="$2"
+
+if [[ -z $branchToCreate ]]; then
+    printf "Creates a new branch from branch 'Develop' (or other specified base branch).\n"
+    printf "Usage: git new NEW_BRANCH [BASE_BRANCH]\n\n"
+    exit
+fi
+
+if [[ -z $baseBranch ]]; then
+    baseBranch='develop'
+fi
+
+confirm git checkout $baseBranch
+
+# confirm git pull origin $baseBranch
+gitpull
+
+confirm git checkout -b $branchToCreate

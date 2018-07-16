@@ -1,0 +1,19 @@
+#!/bin/sh
+
+commandToExecute="${@:1}"
+
+while read -p "Really do ⇛ $commandToExecute ⇚ ? " -n1 -r
+do
+    echo ""
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        $commandToExecute >&2
+        exit 0
+    elif [[ $REPLY =~ ^[Nn]$ ]]
+    then
+        exit 1
+    else
+        echo 'Please type N or Y.'
+    fi
+done
