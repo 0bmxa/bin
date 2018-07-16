@@ -9,9 +9,11 @@ for them to be ever used by anyone else. There is no quality behind any of these
 inspiration for others. I don't guarantee any stability or anything here.  
 **Use at your own risk!**
 
+---
 
 ### `confirm`
-Prefix any risky command with `confirm` and it asks you before it executes it:
+Prefix any risky command with `confirm` and it'll ask you before it's executed.
+
 ```shell
 $ confirm echo hello
 Really do ⇛ echo hello ⇚ ? y
