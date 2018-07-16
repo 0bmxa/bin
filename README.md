@@ -10,10 +10,7 @@ inspiration for others. I don't guarantee any stability or anything here.
 **Use at your own risk!**
 
 
-
-## What do they do?
-
-#### `confirm`
+### `confirm`
 Prefix any risky command with `confirm` and it asks you before it executes it:
 ```shell
 $ confirm echo hello
@@ -21,7 +18,7 @@ Really do ⇛ echo hello ⇚ ? y
 hello
 ```
 
-#### `search`
+### `search`
 Combines `find` and `grep` into one command.
 
 ```shell
@@ -38,7 +35,7 @@ File contents
 ./README.md
 ```
 
-#### `highlight`
+### `highlight`
 Highlights a word in stuff you pipe into it.
 
 Essentially does `COMMAND | egrep --color=always "${YOUR_SEARCH}|$"`.
@@ -53,7 +50,7 @@ Note the bold _audio_ there.
 In the CLI the output is actually colored, but Markdown has no colors.
 
 
-#### `httpserve`
+### `httpserve`
 Serves the current directory (using pythons `http.server` module)
 on `localhost:8080`, and opens your default browser.
 
@@ -63,11 +60,11 @@ Serving /your/current/dir
 Serving HTTP on 127.0.0.1 port 8080 (http://127.0.0.1:8080/) ...
 ```
 
-#### `man`
+### `man`
 Moved to this repo: [man_sections](https://github.com/0bmxa/man_sections).
 
 
-#### `package`
+### `package`
 Tries to consolidate package manager functions into one.
 
 Not very elaborate, yet. Only supports so far:
@@ -82,9 +79,11 @@ Not very elaborate, yet. Only supports so far:
 
 
 
-### Git stuff
+---
 
-#### `git last`
+## Git stuff
+
+### `git last`
 Shows the last 5 branches you used! **Super useful!**
 
 Number can be specified.
@@ -97,7 +96,7 @@ refs/heads/readme
 ```
 
 
-#### `git new`
+### `git new`
 A wrapper for `git checkout -b`.
 
 Creates a new branch, but always first updates the base branch.
@@ -119,7 +118,7 @@ Switched to a new branch 'feature/more_tests'
 ```
 
 
-#### `git refresh`
+### `git refresh`
 A wrapper for `git rebase`.
 
 Updates the base branch (default: `develop`) and rebases onto it. Also asks for
@@ -128,7 +127,7 @@ Updates the base branch (default: `develop`) and rebases onto it. Also asks for
 Usage: `git refresh [my_base_branch]`
 
 
-#### `git finalize`
+### `git finalize`
 Finalizes a feature branch, by running:
 
 1. `git refresh`
@@ -137,7 +136,7 @@ Finalizes a feature branch, by running:
 4. Creating a PR (using [hub](https://github.com/github/hub))
 
 
-#### `git yolo`
+### `git yolo`
 
 Adds everything (`git add -A`), commits with a message from `whatthecommit.com`,
 and pushes (no force) to origin. All without asking.
@@ -149,7 +148,7 @@ before makign a PR.
 Yes, `curl`ing a commit message can be risky.
 
 
-#### `gitpull` (yes, no space)
+### `gitpull` (yes, no space)
 Simply runs `confirm git pull origin BRANCHNAME`,
 where `BRANCHNAME` is determinded by `git rev-parse --abbrev-ref HEAD`.
 (`confirm` see above.)
@@ -160,7 +159,7 @@ Really do ⇛ git pull origin master ⇚ ?
 ```
 
 
-#### `gitpush` (yes, no space)
+### `gitpush` (yes, no space)
 A wrapper around `git push`, which (reminds you to) and offers to rebase before
 pushing.
 
@@ -176,13 +175,14 @@ Really do ⇛ git push -u origin feature/more_tests ⇚ ?
 ```
 
 
+---
 
-### Specific to what I do
+## Specific to what I do
 
-#### `diffswitcher`
+### `diffswitcher`
 Xcode project file diff. See details in [this gist](https://gist.github.com/0bmxa/6ea1e545bce373af1bfa4230009940c4).
 
-#### `restart-coreaudiod`
+### `restart-coreaudiod`
 Restarts the macOS audio server and some tools depending on it.  
 Will be replaced soon by [this one](https://github.com/0bmxa/Pancake/blob/master/Scripts/restart-coreaudiod.sh)
 (not yet public).
