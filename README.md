@@ -39,7 +39,7 @@ File contents
 ```
 
 #### `highlight`
-Highlights a word in stuff you pipe into it. **Warning: slow!**
+Highlights a word in stuff you pipe into it.
 
 Essentially does `COMMAND | egrep --color=always "${YOUR_SEARCH}|$"`.
 
@@ -48,6 +48,13 @@ $ ls -l | highlight git
 # imagine some partially colored output here
 ```
 (Can't really show the output, as markdown has no colors.)
+
+<div class="highlight highlight-source-shell"><pre>
+$ ls -l <span class="pl-k">|</span> highlight audio
+-rwxr-xr-x  user  group  Jan 1 00:00 package
+-rwxr-xr-x  user  group  Jan 1 00:00 restart-core<strong style="color:red">audio</strong>d
+-rwxr-xr-x  user  group  Jan 1 00:00 search
+</pre></div>
 
 
 #### `httpserve`
@@ -82,10 +89,12 @@ Not very elaborate, yet. Only supports so far:
 ### Git stuff
 
 #### `git last`
-Shows the (up to) last 5 branches you used! **Super useful!**
+Shows the last 5 branches you used! **Super useful!**
+
+Number can be specified.
 
 ```shell
-$ git last
+$ git last 3
 refs/heads/master
 refs/heads/feature/consistency
 refs/heads/readme
