@@ -43,18 +43,14 @@ Highlights a word in stuff you pipe into it.
 
 Essentially does `COMMAND | egrep --color=always "${YOUR_SEARCH}|$"`.
 
-```shell
-$ ls -l | highlight git
-# imagine some partially colored output here
-```
-(Can't really show the output, as markdown has no colors.)
-
-<div class="highlight highlight-source-shell"><pre>
-$ ls -l <span class="pl-k">|</span> highlight audio
+<pre>
+$ ls -l | highlight audio
 -rwxr-xr-x  user  group  Jan 1 00:00 package
--rwxr-xr-x  user  group  Jan 1 00:00 restart-core<strong style="color:red">audio</strong>d
+-rwxr-xr-x  user  group  Jan 1 00:00 restart-core<strong>audio</strong>d
 -rwxr-xr-x  user  group  Jan 1 00:00 search
-</pre></div>
+</pre>
+Note the bold _audio_ there.
+In the CLI the output is actually colored, but Markdown has no colors.
 
 
 #### `httpserve`
