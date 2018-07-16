@@ -2,12 +2,13 @@
 A collection of scripts I use to make my command line existence easier.
 
 
-### ⚠️ Warning: ️⚠️
+**⚠️ Warning: ️⚠️**
 These are just some dirty, hacky scripts I wrote for myself with no intention
 for them to be ever used by anyone else. There is no quality behind any of these
 – neither in code style nor in functionality. I just put them on GitHub as
 inspiration for others. I don't guarantee any stability or anything here.  
 **Use at your own risk!**
+
 
 
 ## What do they do?
@@ -38,7 +39,6 @@ File contents
 ```
 
 #### `highlight`
-
 Highlights a word in stuff you pipe into it. **Warning: slow!**
 
 Essentially does `COMMAND | egrep --color=always "${YOUR_SEARCH}|$"`.
@@ -51,7 +51,6 @@ $ ls -l | highlight git
 
 
 #### `httpserve`
-
 Serves the current directory (using pythons `http.server` module)
 on `localhost:8080`, and opens your default browser.
 
@@ -64,8 +63,8 @@ Serving HTTP on 127.0.0.1 port 8080 (http://127.0.0.1:8080/) ...
 #### `man`
 Moved to this repo: [man_sections](https://github.com/0bmxa/man_sections).
 
-#### `package`
 
+#### `package`
 Tries to consolidate package manager functions into one.
 
 Not very elaborate, yet. Only supports so far:
@@ -124,7 +123,7 @@ Updates the base branch (default: `develop`) and rebases onto it. Also asks for
 Usage: `git refresh [my_base_branch]`
 
 
-#### `git-finalize`
+#### `git finalize`
 Finalizes a feature branch, by running:
 
 1. `git refresh`
@@ -133,7 +132,7 @@ Finalizes a feature branch, by running:
 4. Creating a PR (using [hub](https://github.com/github/hub))
 
 
-#### `git-yolo`
+#### `git yolo`
 
 Adds everything (`git add -A`), commits with a message from `whatthecommit.com`,
 and pushes (no force) to origin. All without asking.
@@ -145,7 +144,7 @@ before makign a PR.
 Yes, `curl`ing a commit message can be risky.
 
 
-#### `gitpull`
+#### `gitpull` (yes, no space)
 Simply runs `confirm git pull origin BRANCHNAME`,
 where `BRANCHNAME` is determinded by `git rev-parse --abbrev-ref HEAD`.
 (`confirm` see above.)
@@ -155,7 +154,8 @@ $ gitpull
 Really do ⇛ git pull origin master ⇚ ?
 ```
 
-#### `gitpush`
+
+#### `gitpush` (yes, no space)
 A wrapper around `git push`, which (reminds you to) and offers to rebase before
 pushing.
 
@@ -169,6 +169,8 @@ $ gitpush my_base_branch
 Did you rebase against my_base_branch ? y
 Really do ⇛ git push -u origin feature/more_tests ⇚ ?
 ```
+
+
 
 ### Specific to what I do
 
