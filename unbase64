@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -eo pipefail
+
+echo "$@" | base64 -D -
