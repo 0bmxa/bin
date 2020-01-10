@@ -30,7 +30,7 @@ fi
 
 # Use cwd if path is not specified
 if [[ -z "$searchPath" ]]; then
-    searchPath=$(pwd)
+    searchPath='.'
 fi
 
 # Check if mode is in validModes array

@@ -2,9 +2,26 @@
 
 WORD=$1
 
-buffer=''
-while read line; do
-    buffer+="$line\n"
-done
+HIGHLIGHT="$1"
+MODE="ATONCE"
 
-echo "${buffer}" | egrep --color=always "${WORD}|$"
+if [[ $1 == "-l" ]]; then
+    HIGHLIGHT="$2"
+    MODE="LINEBYLINE"
+fi
+
+# Process all input at once
+if [[ MODE == "ATONCE" ]]; then
+    buffer=''
+    while read line; do
+        buffer+="$line\n"
+    done
+
+    echo "${buffer}" | egrep --color=always "${HIGHLIGHT}|$"
+    exit 0
+fi
+
+# Process each line
+while read line; do
+    echo "${line}" | egrep --color=always "${HIGHLIGHT}|$"
+done
