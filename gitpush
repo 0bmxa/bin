@@ -18,7 +18,7 @@ askForRebase() {
             break
         elif [[ $REPLY =~ ^[Nn]$ ]]; then
             confirm git refresh
-            confirm git push --force -u origin $currentBranchName
+            confirm git push --force --tags -u origin $currentBranchName
             exit 0
         else
             printf 'Please press N or Y.\n'
@@ -34,4 +34,4 @@ fi
 
 
 # Confirm the push
-confirm git push -u origin $currentBranchName
+confirm git push --tags -u origin $currentBranchName
