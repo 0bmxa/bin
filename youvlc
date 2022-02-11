@@ -1,0 +1,6 @@
+#!/bin/sh
+
+URL=$(youtube-dl -g -f bestaudio "$1")
+
+echo "$URL" | vlc - 2>/dev/null &
+

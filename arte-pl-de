@@ -1,0 +1,73 @@
+#!/usr/bin/env /usr/local/bin/python3
+import youtube_dl
+import os
+import sys
+import http.server
+import socketserver
+import socket
+
+if len(sys.argv) < 1:
+    print('Video URL missing')
+    exit(-1)
+url = sys.argv[1]
+
+print('URL:', url)
+
+# Source:
+# https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist
+
+template_m3u8 = """
+#EXTM3U
+#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio",LANGUAGE="de",NAME="Deutsch",AUTOSELECT=YES, DEFAULT=YES,URI="[[AUDIO_DE_URL]]"
+#EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio",LANGUAGE="pl",NAME="Polski",AUTOSELECT=YES, DEFAULT=NO,URI="[[AUDIO_PL_URL]]"
+
+#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=591680,CODECS="avc1.77.30, mp4a.40.2",AUDIO="audio"
+[[VIDEO_URL]]
+"""
+
+format_key_pl_video = 'HLS_XQ_5-2222'
+# format_key_de_v720p = 'HLS_XQ_1-2222'
+
+# Get video info
+ydl = youtube_dl.YoutubeDL()
+try:
+    meta = ydl.extract_info(url, download=False)
+except:
+    exit(-1)
+formats = meta.get('formats', [meta])
+
+# Get PL video formats
+pl_video_formats = [f for f in formats if 'XQ_5' in f['format_id'] and 'width' in f]
+if len(pl_video_formats) < 1:
+    print('No polski video available')
+    exit()
+
+# Get largest video URL
+max_pl_format_width = max([f['width'] for f in pl_video_formats])
+url_pl_video = [f['url'] for f in pl_video_formats if f['width'] == max_pl_format_width][0]
+
+# Get audio URLs
+url_pl_audio = [f['url'] for f in formats if f['format_id'] == 'HLS_XQ_5-61'][0]
+url_de_audio = [f['url'] for f in formats if f['format_id'] == 'HLS_XQ_1-61'][0]
+
+# Fill m3u8 template
+m3u8_data = template_m3u8 \
+    .replace('[[AUDIO_PL_URL]]', url_pl_audio) \
+    .replace('[[AUDIO_DE_URL]]', url_de_audio) \
+    .replace('[[VIDEO_URL]]', url_pl_video)
+
+
+# Write to file
+output_dir = '/tmp/arte'
+os.makedirs(output_dir, exist_ok=True)
+m3u8_file = open('%s/video.m3u8' % output_dir, 'w')
+m3u8_file.write(m3u8_data)
+m3u8_file.close()
+
+# Serve HTTP
+os.chdir(output_dir)
+http_handler = http.server.SimpleHTTPRequestHandler
+with socketserver.TCPServer(('', 8080), http_handler) as httpd:
+    my_ip = socket.gethostbyname(socket.gethostname())
+    print('\nVideo served at: http://%s:8080/video.m3u8' % my_ip)
+    httpd.serve_forever()

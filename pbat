@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -eo pipefail
+
+plistutil -f xml -i "$1" | bat "${@:2}"
