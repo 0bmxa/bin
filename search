@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eo pipefail
 
@@ -22,10 +22,15 @@ searchPath="$2"
 
 # Check if mode is in validModes array
 if [[ -z "$searchString" ]]; then
-    scriptName="$(basename $0)"
-    printf "Usage:\n"
-    printf "  %s <keyword> [/path/to/search]" "$scriptName"
-    printf "\n\n"
+    scriptName=$(basename "$0")
+    cat << EOL
+grep & find wrapper.
+
+Usage:
+  ${scriptName} <keyword> [/path/to/search]
+
+EOL
+    exit 1
 fi
 
 # Use cwd if path is not specified
@@ -34,24 +39,31 @@ if [[ -z "$searchPath" ]]; then
 fi
 
 # Check if mode is in validModes array
-if [[ ! -d "$searchPath" ]]; then
-    printf "ERROR: '%s' is not a valid directory.\n" "$searchPath" >&2
+if [[ ! -d "${searchPath}" ]]; then
+    printf "ERROR: '%s' is not a valid directory.\n" "${searchPath}" >&2
     exit 1
 fi
 
-printf "Seaching '%s' for '%s' (case-insensitive)...\n" $searchPath $searchString
+printf 'Seaching "%s" for "%s" (case-insensitive)...\n' \
+    "${searchPath}" \
+    "${searchString}"
 
 
 # `find` file names
 printTitle 'File names'
 printf 'Searching...\r'
-nameResults=$(find "$searchPath" -iname "*${searchString}*")
+nameResults=$(find "${searchPath}" -iname "*${searchString}*")
 printf '            \r' # Clears 'Searching...'
-[[ -z "$nameResults" ]] && printf '  No results.\n' || printf "$nameResults\n"
+[[ -z "${nameResults}" ]] \
+    && printf '  No results.\n' \
+    || printf "%s\n" "${nameResults}"
+
 
 # `grep` file contents
 printTitle 'File contents'
 printf 'Searching...\r'
 contentsResults=$(grep -RIil "$searchString" "$searchPath" || true)
 printf '            \r' # Clears 'Searching...'
-[[ -z "$contentsResults" ]] && printf '  No results.\n' || printf "$contentsResults\n"
+[[ -z "$contentsResults" ]] \
+    && printf '  No results.\n' \
+    || printf "%s\n" "${contentsResults}"
